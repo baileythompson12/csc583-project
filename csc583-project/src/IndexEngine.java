@@ -13,6 +13,9 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 
+import org.apache.lucene.search.similarities.BooleanSimilarity;
+import org.apache.lucene.search.similarities.Similarity;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -39,13 +42,18 @@ public class IndexEngine {
 	String inputFilePath = "";
 	boolean indexExists = false;
 	
+	Similarity similarity = new BooleanSimilarity(); //change similarity to Boolean Similarity
+	
     StandardAnalyzer analyzer = new StandardAnalyzer();
     Directory index = new ByteBuffersDirectory();
     IndexWriterConfig config = new IndexWriterConfig(analyzer);
-	IndexWriter documentWriter = new IndexWriter(index, config);
+    
+	IndexWriter documentWriter;
 	  
 	  public IndexEngine(String inputFile) throws IOException {
 		  inputFilePath = inputFile;
+		  config.setSimilarity(similarity);
+		  documentWriter = new IndexWriter(index, config);
 		  buildIndex();
 		  
 	  }
@@ -80,17 +88,22 @@ public class IndexEngine {
 							  else text += line + "\t";
 						  }
 						  
+						  text = text.replaceAll("[^a-zA-Z0-9]", " ");  
+						  
 						  //normalize text content (lemmas)
-						  /*String normalText = "";
-						  CoreDocument document = pipeline.processToCoreDocument(text);
-						  for (CoreLabel tok : document.tokens()) {
-							  normalText += tok.lemma() + " ";
-						  }*/
 						  
-						  //System.out.println(normalText);
-						  
-						  addDoc(documentWriter, text, docid);
-						  //System.out.println(docid);
+						  /*if(!text.contains("REDIRECT")) {
+							  String normalText = "";
+							  CoreDocument document = pipeline.processToCoreDocument(text);
+							  for (CoreLabel tok : document.tokens()) {
+								  normalText += tok.lemma() + " ";
+							  }*/
+							  
+							  //System.out.println(normalText);
+							  
+							  addDoc(documentWriter, text, docid);
+							  //System.out.println(docid);
+						  //}
 					  }
 				  }
 				  inputScanner.close();
