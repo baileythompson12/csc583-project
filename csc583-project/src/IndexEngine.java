@@ -79,7 +79,7 @@ public class IndexEngine {
 					 if (n.startsWith("[[")) {
 						  String docid = n.substring(2, n.length() - 2);
 						  
-						  String text = "";
+						  StringBuffer text = new StringBuffer();
 						  boolean newLine = false;
 						  while (!newLine && inputScanner.hasNextLine()) {
 							  String line = inputScanner.nextLine();
@@ -87,28 +87,34 @@ public class IndexEngine {
 								  newLine = true;
 								  n = line;
 							  }
-							  else text += line + "\t";
+							  else text.append(line + " \t");
 						  }
 						  
-						  text = text.replaceAll("[^a-zA-Z0-9]", " ");
+						  //text = text.replaceAll("[^a-zA-Z0-9]", " ");
 						  
 						  //normalize text content (lemmas)
 						  
-						  if(!text.contains("REDIRECT") && !text.contains("redirect")) { //skip redirects for performance, and they contain no text
-							  String normalText = "";
-							  //Sentence sentence = new Sentence(text);
-							  //normalText = StringUtils.join(sentence.lemmas(), " ");
+						  //if(!text.toString().contains("REDIRECT") && !text.toString().contains("redirect")) { //skip redirects for performance, and they contain no text
+							  StringBuffer normalText = new StringBuffer();
+							  Sentence sentence = new Sentence(text.toString());
 							  
-							  CoreDocument document = pipeline.processToCoreDocument(text);
-							  for (CoreLabel tok : document.tokens()) {
-								  normalText += tok.lemma() + " ";
+							  for(String word : sentence.lemmas()) {
+								  normalText.append(word + " ");
 							  }
 							  
-							  //System.out.println(normalText);
 							  
-							  addDoc(documentWriter, normalText, docid);
+							  //normalText = StringUtils.join(sentence.lemmas(), " ");
+							  
+							  /*CoreDocument document = pipeline.processToCoreDocument(text.toString());
+							  for (CoreLabel tok : document.tokens()) {
+								  normalText.append(tok.lemma() + " ");
+							  }*/
+							  
+							  //System.out.println(docid + " : " + text.toString());
+							  
+							  addDoc(documentWriter, normalText.toString(), docid);
 							  //System.out.println(docid);
-						  }
+						  //}
 					  }
 				  }
 				  inputScanner.close();
@@ -163,7 +169,6 @@ public class IndexEngine {
 			      
 			      reader.close();
 				  System.out.println("SEARCH ANSWER: " + ans);
-				  
 				  
 				  //Compare with actual answer
 				  n = inputScanner.nextLine();
