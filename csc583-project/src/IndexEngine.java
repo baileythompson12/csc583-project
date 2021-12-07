@@ -26,7 +26,8 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 
 import edu.stanford.nlp.ling.*;
 import edu.stanford.nlp.pipeline.*;
-
+import edu.stanford.nlp.simple.*;
+import edu.stanford.nlp.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,9 @@ public class IndexEngine {
 		  
 		  //use StanfordCoreNLP to normalize text
 		  Properties props = new Properties();
-		  props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
+		  props.setProperty("annotators", "tokenize,ssplit,pos,lemma,stopword");
 		  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+		  
 		  
 		  int fileNum = 1;
 		  for (File file : listOfFiles) {
@@ -81,7 +83,7 @@ public class IndexEngine {
 						  boolean newLine = false;
 						  while (!newLine && inputScanner.hasNextLine()) {
 							  String line = inputScanner.nextLine();
-							  if(line.startsWith("[[")) {
+							  if(line.startsWith("[[") && !line.startsWith("[[File")) {
 								  newLine = true;
 								  n = line;
 							  }
@@ -92,18 +94,21 @@ public class IndexEngine {
 						  
 						  //normalize text content (lemmas)
 						  
-						  /*if(!text.contains("REDIRECT")) {
+						  if(!text.contains("REDIRECT") && !text.contains("redirect")) { //skip redirects for performance, and they contain no text
 							  String normalText = "";
+							  //Sentence sentence = new Sentence(text);
+							  //normalText = StringUtils.join(sentence.lemmas(), " ");
+							  
 							  CoreDocument document = pipeline.processToCoreDocument(text);
 							  for (CoreLabel tok : document.tokens()) {
 								  normalText += tok.lemma() + " ";
-							  }*/
+							  }
 							  
-							  //System.out.println(normalText);
+							  System.out.println(normalText);
 							  
-							  addDoc(documentWriter, text, docid);
+							  addDoc(documentWriter, normalText, docid);
 							  //System.out.println(docid);
-						  //}
+						  }
 					  }
 				  }
 				  inputScanner.close();
