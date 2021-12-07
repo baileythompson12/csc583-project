@@ -66,7 +66,7 @@ public class IndexEngine {
 		  
 		  //use StanfordCoreNLP to normalize text
 		  Properties props = new Properties();
-		  props.setProperty("annotators", "tokenize,ssplit,pos,lemma,stopword");
+		  props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
 		  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 		  
 		  
@@ -90,7 +90,7 @@ public class IndexEngine {
 							  else text += line + "\t";
 						  }
 						  
-						  text = text.replaceAll("[^a-zA-Z0-9]", " ");  
+						  text = text.replaceAll("[^a-zA-Z0-9]", " ");
 						  
 						  //normalize text content (lemmas)
 						  
@@ -104,7 +104,7 @@ public class IndexEngine {
 								  normalText += tok.lemma() + " ";
 							  }
 							  
-							  System.out.println(normalText);
+							  //System.out.println(normalText);
 							  
 							  addDoc(documentWriter, normalText, docid);
 							  //System.out.println(docid);
