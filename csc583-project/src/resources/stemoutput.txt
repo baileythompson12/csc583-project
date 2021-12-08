@@ -1,0 +1,305 @@
+stemoutput.txt
+
+output from indexing just stemming with Lucene
+
+SEARCH ANSWER: Media of the United States
+ACTUAL ANSWER: The Washington Post
+
+SEARCH ANSWER: United Nations Security Council Resolution 1441
+ACTUAL ANSWER: Taiwan
+
+SEARCH ANSWER: The Hutchinson News
+ACTUAL ANSWER: The Wall Street Journal
+
+SEARCH ANSWER: Bess, You Is My Woman Now
+ACTUAL ANSWER: My Funny Valentine
+
+SEARCH ANSWER: The Salvation Army
+ACTUAL ANSWER: The Salvation Army|Salvation Army
+
+SEARCH ANSWER: Clyfford Still
+ACTUAL ANSWER: Florida
+
+SEARCH ANSWER: Pieter Codde
+ACTUAL ANSWER: Tintoretto
+
+SEARCH ANSWER: Jackie Joyner-Kersee
+ACTUAL ANSWER: Jackie Joyner-Kersee
+
+SEARCH ANSWER: De Poelen, Dronrijp
+ACTUAL ANSWER: Rotary International
+
+SEARCH ANSWER: Khartoum
+ACTUAL ANSWER: Cairo
+
+SEARCH ANSWER: Anglo-French Supreme War Council
+ACTUAL ANSWER: Charles de Gaulle|de Gaulle
+
+SEARCH ANSWER: Clyfford Still
+ACTUAL ANSWER: Ohio
+
+SEARCH ANSWER: USS Arizona Memorial
+ACTUAL ANSWER: Arlington National Cemetery|Arlington Cemetery
+
+SEARCH ANSWER: Jimmy Harry
+ACTUAL ANSWER: Heath Ledger
+
+SEARCH ANSWER: Vicente Genaro de Quesada
+ACTUAL ANSWER: Iberia|Iberian Peninsula
+
+SEARCH ANSWER: International Union for Conservation of Nature
+ACTUAL ANSWER: Panda|Giant panda
+
+SEARCH ANSWER: Marley Marl
+ACTUAL ANSWER: George Michael
+
+SEARCH ANSWER: Medgar Evers
+ACTUAL ANSWER: The Help
+
+SEARCH ANSWER: Knights of Columbus
+ACTUAL ANSWER: Knights of Columbus
+
+SEARCH ANSWER: United States Fish and Wildlife Service
+ACTUAL ANSWER: World Wide Fund|World Wide Fund for Nature
+
+SEARCH ANSWER: Jaú National Park
+ACTUAL ANSWER: Komodo dragon
+
+SEARCH ANSWER: Missing man formation
+ACTUAL ANSWER: Richard Byrd|Richard E. Byrd
+
+SEARCH ANSWER: Boot Hill
+ACTUAL ANSWER: Boot Hill
+
+SEARCH ANSWER: Politics of Cambodia
+ACTUAL ANSWER: France
+
+SEARCH ANSWER: Alexandre Deulofeu
+ACTUAL ANSWER: Confucius
+
+SEARCH ANSWER: Bessie Coleman
+ACTUAL ANSWER: O'Hare|O'Hare International Airport
+
+SEARCH ANSWER: Rabbah
+ACTUAL ANSWER: Jordan
+
+SEARCH ANSWER: Tim Ryan (rugby union)
+ACTUAL ANSWER: Ben Affleck
+
+SEARCH ANSWER: Morris Pashman
+ACTUAL ANSWER: Roe v. Wade
+
+SEARCH ANSWER: Philip IV of France
+ACTUAL ANSWER: Knights Templar
+
+SEARCH ANSWER: New York State Museum
+ACTUAL ANSWER: New Mexico
+
+SEARCH ANSWER: Perejil Island
+ACTUAL ANSWER: Casablanca
+
+SEARCH ANSWER: Jell-O
+ACTUAL ANSWER: Kraft Foods
+
+SEARCH ANSWER: Olympia Dukakis
+ACTUAL ANSWER: Kelsey Grammer
+
+SEARCH ANSWER: Animal House
+ACTUAL ANSWER: Animal House
+
+SEARCH ANSWER: Mayim Bialik
+ACTUAL ANSWER: Mayim Bialik
+
+SEARCH ANSWER: Aaron Burr
+ACTUAL ANSWER: Aaron Burr
+
+SEARCH ANSWER: Keizō Obuchi
+ACTUAL ANSWER: Vladimir Putin|Putin
+
+SEARCH ANSWER: Michelle Obama
+ACTUAL ANSWER: Michelle Obama
+
+SEARCH ANSWER: Mihri Hatun
+ACTUAL ANSWER: Edna St. Vincent Millay
+
+SEARCH ANSWER: Savonlinna
+ACTUAL ANSWER: Helsinki
+
+SEARCH ANSWER: Axis & Allies
+ACTUAL ANSWER: Hasbro
+
+SEARCH ANSWER: Kentucky and Virginia Resolutions
+ACTUAL ANSWER: The Alien and Sedition Acts
+
+SEARCH ANSWER: Fontana Records
+ACTUAL ANSWER: Michael Jackson
+
+SEARCH ANSWER: True Blood
+ACTUAL ANSWER: Anna Paquin
+
+SEARCH ANSWER: Helmut Sturm
+ACTUAL ANSWER: Henry Kissinger
+
+SEARCH ANSWER: Church of Scotland
+ACTUAL ANSWER: Edinburgh
+
+SEARCH ANSWER: Peter Reckell
+ACTUAL ANSWER: James Dean
+
+SEARCH ANSWER: Little People
+ACTUAL ANSWER: Mattel
+
+SEARCH ANSWER: American National Exhibition
+ACTUAL ANSWER: Richard Nixon|Nixon
+
+SEARCH ANSWER: William Dawes
+ACTUAL ANSWER: Henry Wadsworth Longfellow
+
+SEARCH ANSWER: Game Change
+ACTUAL ANSWER: Game Change
+
+SEARCH ANSWER: James Harmon Brown and Barbara Esensten
+ACTUAL ANSWER: NCIS
+
+SEARCH ANSWER: Urbanization in Africa
+ACTUAL ANSWER: Cape Town
+
+SEARCH ANSWER: John Keats
+ACTUAL ANSWER: The Faerie Queene
+
+SEARCH ANSWER: John Keats
+ACTUAL ANSWER: Lord Byron
+
+SEARCH ANSWER: Ouzo
+ACTUAL ANSWER: Ouzo
+
+SEARCH ANSWER: Kentucky and Virginia Resolutions
+ACTUAL ANSWER: Slavery|Slavery in the United States
+
+SEARCH ANSWER: Governor General of Canada
+ACTUAL ANSWER: Governor General of Canada
+
+SEARCH ANSWER: Fifth Beatle
+ACTUAL ANSWER: George Martin
+
+SEARCH ANSWER: Bret Harte
+ACTUAL ANSWER: San Francisco
+
+SEARCH ANSWER: Broad-faced potoroo
+ACTUAL ANSWER: Kangaroo
+
+SEARCH ANSWER: Feta
+ACTUAL ANSWER: Feta
+
+SEARCH ANSWER: Jack Dempsey
+ACTUAL ANSWER: Jack Dempsey
+
+SEARCH ANSWER: Duce
+ACTUAL ANSWER: Duce
+
+SEARCH ANSWER: Douglas Max Utter
+ACTUAL ANSWER: Michigan
+
+SEARCH ANSWER: Red Jacket
+ACTUAL ANSWER: Idaho
+
+SEARCH ANSWER: Triple play
+ACTUAL ANSWER: Joe Tinker
+
+SEARCH ANSWER: Horace Greeley
+ACTUAL ANSWER: William Henry Harrison
+
+SEARCH ANSWER: Roman Catholic Diocese of Beauvais
+ACTUAL ANSWER: Joan of Arc|Jeanne d'Arc
+
+SEARCH ANSWER: Volkshalle
+ACTUAL ANSWER: Madison
+
+SEARCH ANSWER: The Atlanta Journal-Constitution
+ACTUAL ANSWER: The Atlanta Journal-Constitution
+
+SEARCH ANSWER: Americo-Liberian
+ACTUAL ANSWER: Monrovia
+
+SEARCH ANSWER: Snug Harbor (jazz club)
+ACTUAL ANSWER: Mercedes-Benz Superdome|The Superdome
+
+SEARCH ANSWER: Plunkett Donaghy
+ACTUAL ANSWER: Alec Baldwin
+
+SEARCH ANSWER: Armand Lanusse
+ACTUAL ANSWER: Rosa Parks
+
+SEARCH ANSWER: Peter Kenny
+ACTUAL ANSWER: Harrison Ford
+
+SEARCH ANSWER: Homininae
+ACTUAL ANSWER: Dome of the Rock
+
+SEARCH ANSWER: I Love the '80s Strikes Back
+ACTUAL ANSWER: Michael Jackson
+
+SEARCH ANSWER: Church of St. Martin de Porres (Poughkeepsie, New York)
+ACTUAL ANSWER: Budapest
+
+SEARCH ANSWER: Rob Reiner
+ACTUAL ANSWER: Rob Reiner
+
+SEARCH ANSWER: Hogan's Heroes
+ACTUAL ANSWER: Hogan's Heroes
+
+SEARCH ANSWER: Slashdot effect
+ACTUAL ANSWER: Calvin Coolidge
+
+SEARCH ANSWER: Olympia Dukakis
+ACTUAL ANSWER: Martin Sheen
+
+SEARCH ANSWER: I Love the '80s Strikes Back
+ACTUAL ANSWER: Janet Jackson
+
+SEARCH ANSWER: Enosis
+ACTUAL ANSWER: Ottoman Empire
+
+SEARCH ANSWER: Crest (toothpaste)
+ACTUAL ANSWER: Procter & Gamble
+
+SEARCH ANSWER: Reichstag Fire Decree
+ACTUAL ANSWER: Otto von Bismarck|Von Bismarck
+
+SEARCH ANSWER: Andrei Mureșanu
+ACTUAL ANSWER: William Wordsworth
+
+SEARCH ANSWER: Politics of Cambodia
+ACTUAL ANSWER: Khmer language
+
+SEARCH ANSWER: Norodom Buppha Devi
+ACTUAL ANSWER: Rickshaw
+
+SEARCH ANSWER: WAMX
+ACTUAL ANSWER: Michael Jackson
+
+SEARCH ANSWER: United States presidential election in Massachusetts, 1972
+ACTUAL ANSWER: JFK|John F. Kennedy
+
+SEARCH ANSWER: B'nai B'rith
+ACTUAL ANSWER: B'nai B'rith
+
+SEARCH ANSWER: Don Knotts
+ACTUAL ANSWER: Three's Company
+
+SEARCH ANSWER: Annexation
+ACTUAL ANSWER: The Six Day War
+
+SEARCH ANSWER: Heather Locklear
+ACTUAL ANSWER: Heather Locklear
+
+SEARCH ANSWER: Souvlaki
+ACTUAL ANSWER: Souvlaki
+
+SEARCH ANSWER: Holding company
+ACTUAL ANSWER: 3M
+
+SEARCH ANSWER: I. A. L. Diamond
+ACTUAL ANSWER: Robert Downey, Jr.
+
+20/100

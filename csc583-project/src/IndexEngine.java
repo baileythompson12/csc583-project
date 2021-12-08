@@ -6,6 +6,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 
 import org.apache.lucene.store.Directory;
+import org.tartarus.snowball.ext.PorterStemmer;
 import org.apache.lucene.store.ByteBuffersDirectory;
 
 import org.apache.lucene.search.IndexSearcher;
@@ -65,9 +66,9 @@ public class IndexEngine {
 		  File[] listOfFiles = folder.listFiles();
 		  
 		  //use StanfordCoreNLP to normalize text
-		  Properties props = new Properties();
+		  /*Properties props = new Properties();
 		  props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
-		  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+		  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);*/
 		  
 		  
 		  int fileNum = 1;
@@ -89,32 +90,24 @@ public class IndexEngine {
 							  }
 							  else text.append(line + " \t");
 						  }
+
+						  //normalize text content (lemmas) with Stanford Core NLP
+						  StringBuffer normalText = new StringBuffer();
+						  Sentence sentence = new Sentence(text.toString());
+						  for(String word : sentence.lemmas()) {
+							  normalText.append(word + " ");
+						  }
 						  
-						  //text = text.replaceAll("[^a-zA-Z0-9]", " ");
 						  
-						  //normalize text content (lemmas)
+						  //normalize text content (stemming) with Lucene
+						  PorterStemmer stem = new PorterStemmer();
+						  stem.setCurrent(normalText.toString());
+						  stem.stem();
+						  //String normalText = stem.getCurrent();
 						  
-						  //if(!text.toString().contains("REDIRECT") && !text.toString().contains("redirect")) { //skip redirects for performance, and they contain no text
-							  StringBuffer normalText = new StringBuffer();
-							  Sentence sentence = new Sentence(text.toString());
-							  
-							  for(String word : sentence.lemmas()) {
-								  normalText.append(word + " ");
-							  }
-							  
-							  
-							  //normalText = StringUtils.join(sentence.lemmas(), " ");
-							  
-							  /*CoreDocument document = pipeline.processToCoreDocument(text.toString());
-							  for (CoreLabel tok : document.tokens()) {
-								  normalText.append(tok.lemma() + " ");
-							  }*/
-							  
-							  //System.out.println(docid + " : " + text.toString());
-							  
-							  addDoc(documentWriter, normalText.toString(), docid);
-							  //System.out.println(docid);
-						  //}
+						  
+						  //System.out.println(docid + " : " + normalText.toString());
+						  addDoc(documentWriter, stem.getCurrent(), docid);
 					  }
 				  }
 				  inputScanner.close();
