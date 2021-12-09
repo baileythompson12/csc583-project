@@ -26,7 +26,9 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 
 
 import edu.stanford.nlp.ling.*;
+import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.pipeline.*;
+import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.simple.*;
 import edu.stanford.nlp.util.StringUtils;
 
@@ -40,7 +42,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class IndexEngine {
+import org.deeplearning4j.*;
+import org.deeplearning4j.models.word2vec.Word2Vec;
+import org.deeplearning4j.text.sentenceiterator.*;
+import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
+import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
+import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
+import org.nd4j.*;
+import org.ejml.*;
+import org.datavec.*;
+
+class IndexEngine {
 	String inputFilePath = "";
 	boolean indexExists = false;
 	
@@ -60,19 +72,51 @@ public class IndexEngine {
 		  
 	  }
 	  
+	  public void buildNeuralNetwork() throws IOException {
+		  //Use Word2Vec to process Wikipedia pages
+		  File folder = new File(inputFilePath);
+		  File[] listOfFiles = folder.listFiles();
+		  
+		  
+		  int fileNum = 1;
+		  for (File file : listOfFiles) {
+			  System.out.println("Indexing file " + fileNum + "/" + listOfFiles.length);
+			  SentenceIterator iter = new LineSentenceIterator(file);
+			  iter.setPreProcessor(new SentencePreProcessor() { //pre process string to turn it to lower case
+				  @Override
+				  public String preProcess(String sentence) {
+					  return sentence.toLowerCase();
+				  }
+			  });
+			  TokenizerFactory t = new DefaultTokenizerFactory();
+			  t.setTokenPreProcessor(new CommonPreprocessor());
+			  
+			  Word2Vec vec = new Word2Vec.Builder()
+					  .minWordFrequency(5)
+					  .layerSize(100)
+					  .seed(42)
+					  .windowSize(5)
+					  .iterate(iter)
+					  .tokenizerFactory(t)
+					  .build();
+			  
+			  vec.fit();
+			  
+			  fileNum++;
+		  }
+		  indexExists = true;
+		  documentWriter.close();
+	  }
+	  
 	  public void buildIndex() throws IOException {
 		  //Open Wiki files and turn them into docs
 		  File folder = new File(inputFilePath);
 		  File[] listOfFiles = folder.listFiles();
 		  
-		  //use StanfordCoreNLP to normalize text
-		  /*Properties props = new Properties();
-		  props.setProperty("annotators", "tokenize,ssplit,pos,lemma");
-		  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);*/
-		  
 		  
 		  int fileNum = 1;
-		  for (File file : listOfFiles) {
+		  for (int i = 0; i < 2; i++) { //File file : listOfFiles
+			  File file = listOfFiles[i];
 			  System.out.println("Indexing file " + fileNum + "/" + listOfFiles.length);
 			  try(Scanner inputScanner = new Scanner(file)) {
 				  String n = inputScanner.nextLine();
@@ -92,22 +136,22 @@ public class IndexEngine {
 						  }
 
 						  //normalize text content (lemmas) with Stanford Core NLP
-						  StringBuffer normalText = new StringBuffer();
+						  /*StringBuffer normalText = new StringBuffer();
 						  Sentence sentence = new Sentence(text.toString());
 						  for(String word : sentence.lemmas()) {
 							  normalText.append(word + " ");
-						  }
+						  }*/
 						  
 						  
 						  //normalize text content (stemming) with Lucene
 						  PorterStemmer stem = new PorterStemmer();
-						  stem.setCurrent(normalText.toString());
+						  stem.setCurrent(text.toString()); //change this to normalText.toString() if you uncomment the Core NLP portion
 						  stem.stem();
-						  //String normalText = stem.getCurrent();
+						  String normalText = stem.getCurrent();
 						  
 						  
 						  //System.out.println(docid + " : " + normalText.toString());
-						  addDoc(documentWriter, stem.getCurrent(), docid);
+						  addDoc(documentWriter, normalText, docid);
 					  }
 				  }
 				  inputScanner.close();
@@ -145,6 +189,18 @@ public class IndexEngine {
 				  
 				  //Make sure query doesn't have special characters that can confuse Lucene search
 				  query = query.replaceAll("[^a-zA-Z0-9]", " ");  
+
+				  // Core NLP pipeline for dependency parsing
+				  Properties props = new Properties();
+				  props.setProperty("annotators", "tokenize,ssplit,pos,lemma,depparse"); //tokenize and lemmatize because we also did this to our Wiki pages
+				  props.setProperty("coref.algorithm", "neural");
+				  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
+				  //use dependency parsing on document
+				  CoreDocument doc = new CoreDocument(query);
+				  pipeline.annotate(doc);
+				  CoreSentence sentence = doc.sentences().get(0);
+				  SemanticGraph dependencyParse = sentence.dependencyParse();
 				  
 				  //Lucene search query in documents 
 				  String ans = "";
