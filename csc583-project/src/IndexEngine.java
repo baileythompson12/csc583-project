@@ -55,6 +55,7 @@ import org.nd4j.*;
 import org.ejml.*;
 import org.datavec.*;
 
+
 class IndexEngine {
 	String inputFilePath = "";
 	boolean indexExists = false;
@@ -71,20 +72,20 @@ class IndexEngine {
 		  inputFilePath = inputFile;
 		  config.setSimilarity(similarity);
 		  documentWriter = new IndexWriter(index, config);
-		  //buildIndex();
-		  buildNeuralIndex();
+		  buildIndex();
+		  //buildNeuralIndex();
 		  
 	  }
 	  
 	  public void buildNeuralIndex() throws IOException {
 		  //Use Word2Vec to process Wikipedia pages
 		  File gFile = new File("src/resources/glove.840B.300d.10f.txt.gz");
-		  WordVectors wordVectors = WordVectorSerializer.readWord2VecModel("src/resources/glove.840B.300d.10f.txt");
-		  System.out.println(wordVectors);
-		  Word2Vec vec = new Word2Vec();
+		  //WordVectors wordVectors = WordVectorSerializer.readWord2VecModel("src/resources/glove.840B.300d.10f.txt.gz");
+		  //System.out.println(wordVectors);
 		  
-		  Collection<String> lst = wordVectors.wordsNearest("day", 10);
-		  System.out.println(lst);
+		  
+		  //Collection<String> lst = wordVectors.wordsNearest("day", 10);
+		  //System.out.println(lst);
 		  
 		  File folder = new File(inputFilePath);
 		  File[] listOfFiles = folder.listFiles();
@@ -93,34 +94,39 @@ class IndexEngine {
 		  int fileNum = 1;
 		  for (int i = 0; i < 2; i++) { //File file : listOfFiles
 			  File file = listOfFiles[i];
-			  System.out.println("Indexing file " + fileNum + "/" + listOfFiles.length);
+			  try(Scanner inputScanner = new Scanner(file)) {
+				  String n = inputScanner.nextLine();
+				  while (inputScanner.hasNextLine()) {
+				  System.out.println("Indexing file " + fileNum + "/" + listOfFiles.length);
+				  Collection<String> sentences = new ArrayList<String>();
+				  
+				  SentenceIterator iter = new LineSentenceIterator(file);
+				  iter.setPreProcessor(new SentencePreProcessor() { //pre process string to turn it to lower case
+					  @Override
+					  public String preProcess(String sentence) {
+						  return sentence.toLowerCase();
+					  }
+				  });
+				  
+				  TokenizerFactory t = new DefaultTokenizerFactory();
+				  t.setTokenPreProcessor(new CommonPreprocessor());
+				  
+				  Word2Vec vec = new Word2Vec.Builder()
+						  .minWordFrequency(5)
+						  .layerSize(100)
+						  .seed(42)
+						  .windowSize(5)
+						  .iterate(iter)
+						  .tokenizerFactory(t)
+						  .build();
+				  
+				  vec.fit();
 			  
-			  
-			  //am I accidentally building the vector again?
-			  SentenceIterator iter = new LineSentenceIterator(file);
-			  iter.setPreProcessor(new SentencePreProcessor() { //pre process string to turn it to lower case
-				  @Override
-				  public String preProcess(String sentence) {
-					  return sentence.toLowerCase();
+			  //Collection<String> lst = vec.wordsNearest("query", 10);
 				  }
-			  });
-			  TokenizerFactory t = new DefaultTokenizerFactory();
-			  t.setTokenPreProcessor(new CommonPreprocessor());
-			  
-			  Word2Vec vec = new Word2Vec.Builder()
-					  .minWordFrequency(5)
-					  .layerSize(100)
-					  .seed(42)
-					  .windowSize(5)
-					  .iterate(iter)
-					  .tokenizerFactory(t)
-					  .build();
-			  
-			  vec.fit();
-			  
-			  
 			  
 			  fileNum++;
+			  }
 		  }
 		  indexExists = true;
 		  documentWriter.close();
@@ -208,6 +214,7 @@ class IndexEngine {
 				  query = query.replaceAll("[^a-zA-Z0-9]", " ");  
 
 				  // Core NLP pipeline for dependency parsing
+				  /*
 				  Properties props = new Properties();
 				  props.setProperty("annotators", "tokenize,ssplit,pos,lemma,depparse"); //tokenize and lemmatize because we also did this to our Wiki pages
 				  props.setProperty("coref.algorithm", "neural");
@@ -220,6 +227,7 @@ class IndexEngine {
 				  SemanticGraph dependencyParse = sentence.dependencyParse();
 				  String dotFormat = dependencyParse.toDotFormat();
 				  System.out.println(dotFormat);
+				  */
 				  
 				  //Lucene search query in documents 
 				  String ans = "";
