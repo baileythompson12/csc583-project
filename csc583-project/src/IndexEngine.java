@@ -33,6 +33,7 @@ import edu.stanford.nlp.simple.*;
 import edu.stanford.nlp.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.io.File;
@@ -43,6 +44,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.deeplearning4j.*;
+import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
+import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.text.sentenceiterator.*;
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
@@ -68,19 +71,32 @@ class IndexEngine {
 		  inputFilePath = inputFile;
 		  config.setSimilarity(similarity);
 		  documentWriter = new IndexWriter(index, config);
-		  buildIndex();
+		  //buildIndex();
+		  buildNeuralIndex();
 		  
 	  }
 	  
-	  public void buildNeuralNetwork() throws IOException {
+	  public void buildNeuralIndex() throws IOException {
 		  //Use Word2Vec to process Wikipedia pages
+		  File gFile = new File("src/resources/glove.840B.300d.10f.txt.gz");
+		  WordVectors wordVectors = WordVectorSerializer.readWord2VecModel("src/resources/glove.840B.300d.10f.txt");
+		  System.out.println(wordVectors);
+		  Word2Vec vec = new Word2Vec();
+		  
+		  Collection<String> lst = wordVectors.wordsNearest("day", 10);
+		  System.out.println(lst);
+		  
 		  File folder = new File(inputFilePath);
 		  File[] listOfFiles = folder.listFiles();
 		  
 		  
 		  int fileNum = 1;
-		  for (File file : listOfFiles) {
+		  for (int i = 0; i < 2; i++) { //File file : listOfFiles
+			  File file = listOfFiles[i];
 			  System.out.println("Indexing file " + fileNum + "/" + listOfFiles.length);
+			  
+			  
+			  //am I accidentally building the vector again?
 			  SentenceIterator iter = new LineSentenceIterator(file);
 			  iter.setPreProcessor(new SentencePreProcessor() { //pre process string to turn it to lower case
 				  @Override
@@ -102,6 +118,8 @@ class IndexEngine {
 			  
 			  vec.fit();
 			  
+			  
+			  
 			  fileNum++;
 		  }
 		  indexExists = true;
@@ -115,8 +133,7 @@ class IndexEngine {
 		  
 		  
 		  int fileNum = 1;
-		  for (int i = 0; i < 2; i++) { //File file : listOfFiles
-			  File file = listOfFiles[i];
+		  for (File file : listOfFiles) {
 			  System.out.println("Indexing file " + fileNum + "/" + listOfFiles.length);
 			  try(Scanner inputScanner = new Scanner(file)) {
 				  String n = inputScanner.nextLine();
@@ -201,6 +218,8 @@ class IndexEngine {
 				  pipeline.annotate(doc);
 				  CoreSentence sentence = doc.sentences().get(0);
 				  SemanticGraph dependencyParse = sentence.dependencyParse();
+				  String dotFormat = dependencyParse.toDotFormat();
+				  System.out.println(dotFormat);
 				  
 				  //Lucene search query in documents 
 				  String ans = "";
